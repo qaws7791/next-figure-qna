@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-
-const notoSans = Noto_Sans_KR({
-  variable: "--font-noto-sans",
-  subsets: ["latin"],
-});
+import { notoSans } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
