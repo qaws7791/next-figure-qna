@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 const notoSans = Noto_Sans_KR({
   variable: "--font-noto-sans",
@@ -23,9 +24,7 @@ export default function RootLayout({
       <body className={`${notoSans.variable} antialiased`}>
         <Navbar />
         {children}
-        <footer className="mt-auto max-w-4xl text-center mx-auto px-4 py-20">
-          <p className="text-xs text-gray-600">© 2024 FigureQnA.</p>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
