@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   integer,
   sqliteTable,
@@ -5,6 +6,18 @@ import {
   primaryKey,
 } from "drizzle-orm/sqlite-core";
 import type { AdapterAccountType } from "next-auth/adapters";
+
+export const contents = sqliteTable("contents", {
+  id: integer("id").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  question: text("question").notNull(),
+  answers: text("answers", { mode: "json" }).notNull(),
+  created_at: text("created_at")
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .notNull(),
+});
 
 export const users = sqliteTable("user", {
   id: text("id")
