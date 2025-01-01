@@ -1,7 +1,19 @@
+import { auth } from "@/lib/auth";
+import { createContent } from "@/lib/db/queries/contents";
 import { askQuestionToGreatPerson } from "@/lib/gemini";
-import { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
+export const POST = auth(async function POST(request) {
+  const session = request.auth;
+  const userId = session?.user?.id;
+  if (!session || !userId) {
+    return new Response(JSON.stringify({ error: "로그인이 필요합니다." }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   const res = await request.json();
   const question = res.question;
 
@@ -16,14 +28,22 @@ export async function POST(request: NextRequest) {
 
   const result = await askQuestionToGreatPerson(question);
 
-  const response = {
+  // insert to db
+  const content = await createContent({
+    userId: userId,
     question: question,
-    answers: JSON.parse(result),
-  };
-
-  return new Response(JSON.stringify(response), {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    answers: result,
   });
-}
+
+  return new Response(
+    JSON.stringify({
+      ...content,
+      answers: JSON.parse(content.answers as string),
+    }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+});
