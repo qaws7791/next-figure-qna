@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { contents } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 export async function createContent({
   userId,
@@ -25,4 +25,19 @@ export async function createContent({
 
 export async function getContentById(id: number) {
   return db.select().from(contents).where(eq(contents.id, id)).get();
+}
+
+export async function getContents({
+  page = 1,
+  limit = 10,
+}: {
+  page?: number;
+  limit?: number;
+}) {
+  return db
+    .select()
+    .from(contents)
+    .orderBy(desc(contents.created_at))
+    .limit(limit)
+    .offset((page - 1) * limit);
 }
