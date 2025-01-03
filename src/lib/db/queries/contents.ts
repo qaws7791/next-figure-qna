@@ -35,7 +35,12 @@ export async function getContents({
   limit?: number;
 }) {
   return db
-    .select()
+    .select({
+      id: contents.id,
+      userId: contents.userId,
+      question: contents.question,
+      created_at: contents.created_at,
+    })
     .from(contents)
     .orderBy(desc(contents.created_at))
     .limit(limit)
