@@ -37,12 +37,13 @@ export const POST = auth(async function POST(request) {
 
   return new Response(
     JSON.stringify({
-      ...content,
-      answers: JSON.parse(content.answers as string),
+      id: content.id,
     }),
     {
+      status: 201,
       headers: {
         "Content-Type": "application/json",
+        location: `/api/contents/${content.id}`,
       },
     }
   );
