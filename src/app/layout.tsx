@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { notoSans } from "@/app/fonts";
+import QueryProvider from "@/components/query-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,10 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${notoSans.variable} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
+      <body className={`${notoSans.variable} antialiased pt-24`}>
+        <QueryProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );
