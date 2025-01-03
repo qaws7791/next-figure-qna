@@ -1,38 +1,26 @@
 "use client";
 import { askQuestion } from "@/api/contents";
 import AILoader from "@/components/ai-loader";
-import { Badge } from "@/components/ui/badge";
-import { MicIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ArrowRightIcon, MicIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 type ResponseType = {
   id: number;
-  userId: string;
-  question: string;
-  answers: {
-    items: Array<{
-      answer: string;
-      person: {
-        intro: string;
-        name: string;
-      };
-      related_tags: string;
-      sources: string;
-    }>;
-  };
-  created_at: string;
 };
 
 export default function AIForm() {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState<ResponseType | null>(null);
+  const [response, setResponse] = useState<ResponseType | null>({ id: 4 });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
       const data = await askQuestion({ inputText });
       setResponse(data);
+      setInputText("");
     } catch (error) {
       alert(`에러가 발생했습니다: ${error}`);
     } finally {
@@ -73,31 +61,13 @@ export default function AIForm() {
       </form>
       {loading ? <AILoader /> : null}
       {response ? (
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800 text-center my-8">
-            &quot;{response?.question}&quot;
-          </h2>
-          <section className="flex flex-col gap-4">
-            {response?.answers.items.map((item, index) => (
-              <div key={index} className="border p-4 rounded-3xl">
-                <div className="">
-                  <h3 className="text-xl font-semibold">{item.person.name}</h3>
-                  <p className="text-sm text-gray-500">{item.person.intro}</p>
-                </div>
-                <p className="text-lg font-medium mt-4">
-                  &quot;{item.answer}&quot;
-                </p>
-                <div className="text-sm text-gray-500 mt-2">{item.sources}</div>
-                <ul className="flex flex-wrap gap-x-2 gap-y-2 mt-4 items-center">
-                  {item.related_tags.split(", ").map((tag, index) => (
-                    <li key={index} className="">
-                      <Badge variant="secondary">{tag}</Badge>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </section>
+        <div className="mt-8 w-full flex justify-center">
+          <Button asChild size="lg">
+            <Link href={`/contents?id=${response.id}`}>
+              답변 확인하기
+              <ArrowRightIcon className="shrink-0 size-4" />
+            </Link>
+          </Button>
         </div>
       ) : (
         <div className="mt-8">
