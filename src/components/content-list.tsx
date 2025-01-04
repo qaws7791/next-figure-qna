@@ -13,10 +13,12 @@ export default function ContentList() {
         {allItems.map((item) => (
           <Link
             href={`/contents?id=${item.id}`}
-            className="p-4 border border-zinc-200 rounded-2xl hover:shadow-md transition-shadow"
+            className="p-4 border border-zinc-200 rounded-2xl hover:shadow-md transition-shadow min-h-[162px]"
             key={item.id}
           >
-            <p className="text-2xl font-medium">{item.question}</p>
+            <p className="text-2xl font-medium line-clamp-5 md:line-clamp-4">
+              {item.question}
+            </p>
 
             <time className="sr-only">
               {new Date(item.created_at).toLocaleDateString()}
