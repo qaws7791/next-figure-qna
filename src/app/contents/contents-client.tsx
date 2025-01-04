@@ -1,5 +1,6 @@
 "use client";
 import ContentDetail from "@/components/content-detail";
+import ContentDetailSkeleton from "@/components/content-detail.skeleton";
 import { useSearchParams } from "next/navigation";
 import React, { Suspense } from "react";
 
@@ -12,10 +13,8 @@ export default function ContentsClient() {
   }
 
   return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ContentDetail id={id} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<ContentDetailSkeleton />}>
+      <ContentDetail id={id} />
+    </Suspense>
   );
 }
