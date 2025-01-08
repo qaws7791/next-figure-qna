@@ -4,6 +4,7 @@ import AILoader from "@/components/ai-loader";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRightIcon, LoaderIcon, SparklesIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -12,11 +13,17 @@ type ResponseType = {
 };
 
 export default function AIForm() {
+  const { data: session } = useSession();
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<ResponseType | null>(null);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!session) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
+
     try {
       setLoading(true);
       const data = await askQuestion({ inputText });
@@ -50,7 +57,7 @@ export default function AIForm() {
           maxLength={500}
           onChange={(e) => setInputText(e.target.value)}
         />
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full mt-4">
           {response ? (
             <Button asChild size="lg" variant="destructive">
               <Link href={`/contents?id=${response.id}`}>
@@ -59,7 +66,7 @@ export default function AIForm() {
               </Link>
             </Button>
           ) : (
-            <Button size="lg" type="submit" className="mt-4" disabled={loading}>
+            <Button size="lg" type="submit" disabled={loading}>
               {loading ? "답변을 기다리는 중..." : "질문하기"}
               {loading ? (
                 <LoaderIcon className="shrink-0 size-4 animate-spin" />
@@ -79,8 +86,8 @@ export default function AIForm() {
             <MicIcon className="shrink-0 size-4" />
           </button>
         </div> */}
+        <div className="mt-4 w-full">{loading ? <AILoader /> : null}</div>
       </form>
-      {loading ? <AILoader /> : null}
     </div>
   );
 }
