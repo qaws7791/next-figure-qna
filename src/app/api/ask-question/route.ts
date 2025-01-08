@@ -1,8 +1,8 @@
-import { auth } from "@/lib/auth";
+import { withAuth } from "@/lib/auth/with-auth";
 import { createContent } from "@/lib/db/queries/contents";
 import { askQuestionToGreatPerson } from "@/lib/gemini";
 
-export const POST = auth(async function POST(request) {
+export const POST = withAuth(async function POST(request) {
   const session = request.auth;
   const userId = session?.user?.id;
   if (!session || !userId) {
