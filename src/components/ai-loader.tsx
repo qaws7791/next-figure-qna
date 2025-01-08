@@ -1,4 +1,5 @@
 "use client";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 import React, { useEffect, useState } from "react";
 const messages = [
   "질문에 적합한 위인을 찾고 있습니다... 지혜로운 인물이 곧 나타날 겁니다!",
@@ -22,7 +23,7 @@ export default function AILoader() {
   const translateY = -((step * 100) / messages.length);
 
   return (
-    <div className="text-gray-800 h-12 overflow-hidden">
+    <div className="text-gray-800 h-12 overflow-hidden w-full">
       <div
         style={{
           transform: `translateY(${translateY}%)`,
@@ -34,7 +35,9 @@ export default function AILoader() {
             className="text-lg text-center h-12 flex items-center justify-center"
             key={index}
           >
-            <span>{message}</span>
+            <TextShimmer className="font-medium" duration={4}>
+              {message}
+            </TextShimmer>
           </div>
         ))}
       </div>
