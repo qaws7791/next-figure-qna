@@ -1,4 +1,3 @@
-"use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { range } from "@/lib/utils";
 import React from "react";
