@@ -8,10 +8,10 @@ export function useContentInfiniteQuery() {
   return useSuspenseInfiniteQuery({
     queryKey: ["contents"],
     queryFn: async ({ pageParam = 1 }) => {
-      return getContents({ page: pageParam, limit: 20 });
+      return getContents({ page: pageParam, limit: 18 });
     },
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 20 ? allPages.length + 1 : undefined;
+      return lastPage.length === 18 ? allPages.length + 1 : undefined;
     },
     initialPageParam: 1,
   });
