@@ -1,5 +1,6 @@
 import AIForm from "@/components/ai-form";
 import ContentList from "@/components/content-list";
+import ContentListSkeleton from "@/components/content-list.skeleton";
 import PageContainer from "@/components/layout/page-container";
 import Logo from "@/components/logo";
 import { Suspense } from "react";
@@ -25,7 +26,7 @@ export default function page() {
         <h2 className="text-xl font-bold text-gray-800 text-center">
           최근 질문
         </h2>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ContentListSkeleton />}>
           <ContentList />
         </Suspense>
       </section>
