@@ -44,7 +44,7 @@ export default function AIForm() {
       >
         <label
           htmlFor="question"
-          className="text-lg font-medium text-gray-600 my-4 w-full text-center"
+          className="text-lg font-medium text-gray-800 my-4 w-full text-center"
         >
           질문을 입력하고 위인으로부터 답변을 받아보세요.
         </label>
