@@ -8,7 +8,7 @@ export default function PageContainer({
   return (
     <div
       className={cn(
-        "flex flex-col pt-4 pl-4 pr-4 pb-4  max-w-screen-lg mx-auto",
+        "flex flex-col pt-24 pl-4 pr-4 pb-4  max-w-screen-lg mx-auto",
         className
       )}
       {...props}
