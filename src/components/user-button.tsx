@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface UserButtonProps {
   user: User;
 }
 
 export default function UserButton({ user }: UserButtonProps) {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,7 +47,9 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => router.push("/accounts")}>
+          Profile
+        </DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => signOut()}>Sign Out</DropdownMenuItem>
