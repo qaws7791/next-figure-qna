@@ -67,3 +67,25 @@ export async function getContent({ id }: { id: string }) {
   const data = (await response.json()) as ContentResponseType;
   return data;
 }
+
+export async function getContentsByUser({
+  userId,
+  page = 1,
+  limit = 10,
+}: {
+  userId: string;
+  page?: number;
+  limit?: number;
+}) {
+  const searchParams = new URLSearchParams();
+  searchParams.set("page", String(page));
+  searchParams.set("limit", String(limit));
+  const response = await httpClient.get(
+    `users/${userId}/answers?${searchParams.toString()}`
+  );
+  if (!response.ok) {
+    throw new Error("API 요청이 실패했습니다.");
+  }
+  const data = (await response.json()) as ContentsResponseType;
+  return data;
+}

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { contents } from "@/lib/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { count, desc, eq } from "drizzle-orm";
 
 export async function createContent({
   userId,
@@ -45,4 +45,38 @@ export async function getContents({
     .orderBy(desc(contents.created_at))
     .limit(limit)
     .offset((page - 1) * limit);
+}
+
+export async function getContentByUser({
+  page = 1,
+  limit = 10,
+  userId,
+}: {
+  page?: number;
+  limit?: number;
+  userId: string;
+}) {
+  return db
+    .select({
+      id: contents.id,
+      userId: contents.userId,
+      question: contents.question,
+      created_at: contents.created_at,
+    })
+    .from(contents)
+    .where(eq(contents.userId, userId))
+    .orderBy(desc(contents.created_at))
+    .limit(limit)
+    .offset((page - 1) * limit);
+}
+
+export async function getCountCountByUser(userId: string) {
+  const result = await db
+    .select({
+      count: count(),
+    })
+    .from(contents)
+    .where(eq(contents.userId, userId));
+
+  return result[0].count;
 }
